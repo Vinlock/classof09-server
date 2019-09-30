@@ -1,6 +1,6 @@
 import Logger from '../lib/Logger';
 import testRouter from './testRouter';
-import graphQLRouter from './graphqlRouter';
+import graphQLRouter from './graphQLRouter';
 import notFoundRouter from './notFoundRouter';
 import restRouter from './restRouter';
 
