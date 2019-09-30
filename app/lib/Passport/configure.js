@@ -6,6 +6,7 @@ import { FacebookUser } from '../Facebook';
 const {
   APP_FACEBOOK_CLIENT_ID,
   APP_FACEBOOK_SECRET,
+  APP_SITE_URL,
 } = process.env;
 
 const configure = () => {
@@ -13,7 +14,7 @@ const configure = () => {
   passport.use(new FacebookStrategy({
     clientID: APP_FACEBOOK_CLIENT_ID,
     clientSecret: APP_FACEBOOK_SECRET,
-    callbackURL: '/rest/auth/oauth/facebook/callback',
+    callbackURL: `${APP_SITE_URL}/rest/auth/oauth/facebook/callback`,
     passReqToCallback: true,
   }, async (req, accessToken, refreshToken, _, done) => {
     if (req.user) {

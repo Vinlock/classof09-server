@@ -6,7 +6,7 @@ metadata:
   labels:
     app: {{APP_NAME}}-app
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
       app: {{APP_NAME}}-app
@@ -55,6 +55,7 @@ metadata:
   name: {{APP_NAME}}-ingress
   annotations:
     ingress.kubernetes.io/force-ssl-redirect: "true"
+
 spec:
   tls:
     - hosts:
