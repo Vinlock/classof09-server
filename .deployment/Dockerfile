@@ -2,9 +2,11 @@ FROM node:latest as build
 
 ENV NODE_ENV=production
 
+WORKDIR /var/app
+
 COPY ./app/ /var/app/app/
 COPY ./package.json /var/app/package.json
-RUN yarn
+RUN yarn install
 
 FROM node:latest
 
