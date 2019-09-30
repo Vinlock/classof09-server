@@ -1,8 +1,11 @@
 import bodyParser from 'body-parser';
-import cookieParser from 'cookie-parser';
 import corsMiddleware from './corsMiddleware';
 import logMiddleware from './logMiddleware';
 import requestIdMiddleware from './requestIdMiddleware';
+import authMiddleware from './authMiddleware';
+import dbMiddleware from './dbMiddleware';
+import typeformMiddleware from './typeformMiddleware';
+import eventbriteMiddleware from './eventbriteMiddleware';
 import Validation from '../Validation/Validation';
 
 /**
@@ -15,36 +18,37 @@ import Validation from '../Validation/Validation';
  * @param {Boolean|Object} [options.logging=false] Enable Logging
  * @param {String|null} [options.logging.name=null] Logging Options
  * @param {Boolean} [options.cors=false] Enable CORS
+ * @param {Boolean} [options.auth=false] Enable Authentication
+ * @param {Boolean} [options.db=false] Enable Database Usage
+ * @param {Boolean} [options.typeform=false] Enable Typeform API
+ * @param {Boolean} [options.eventbrite=false] Enable Eventbrite API
  * @returns {Array<Object>}
  */
 export default (options = {}) => {
   const defaults = {
     jsonParser: false,
     urlEncodedParser: false,
-    cookieParser: false,
     requestIdGenerator: false,
     logging: false,
     cors: false,
+    auth: false,
+    db: false,
+    typeform: false,
+    eventbrite: false,
   };
 
   options = { ...defaults, ...options };
 
   const middleware = [];
 
+  // CORS Middleware
+  if (options.cors) middleware.push(corsMiddleware());
+
   // JSON Body Parser
   if (options.jsonParser) middleware.push(bodyParser.json());
 
   // URL Encoded Body Parser
   if (options.urlEncodedParser) middleware.push(bodyParser.urlencoded({ extended: true }));
-
-  // Cookie Parser
-  if (options.cookieParser) {
-    if (Validation.isObject(options.cookieParser)) {
-      middleware.push(cookieParser(options.cookieParser));
-    } else {
-      middleware.push(cookieParser());
-    }
-  }
 
   // Request ID Generator
   if (options.requestIdGenerator) middleware.push(requestIdMiddleware());
@@ -60,8 +64,17 @@ export default (options = {}) => {
     }
   }
 
-  // CORS Middleware
-  if (options.cors) middleware.push(corsMiddleware());
+  // DB Middleware
+  if (options.db) middleware.push(dbMiddleware());
+
+  // Auth Middleware
+  if (options.auth) middleware.push(authMiddleware());
+
+  // Typeform API
+  if (options.typeform) middleware.push(typeformMiddleware());
+
+  // Eventbrite API
+  if (options.eventbrite) middleware.push(eventbriteMiddleware());
 
   return middleware;
 };

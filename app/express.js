@@ -1,5 +1,6 @@
 import http from 'http';
 import express from 'express';
+import cookieParser from 'cookie-parser';
 import helmetMiddleware from './lib/ExpressMiddleware/helmetMiddleware';
 import routers from './routers';
 
@@ -14,6 +15,9 @@ export default {
      * @type {Function|*}
      */
     const app = express();
+
+    /** Cookie Middleware */
+    app.use(cookieParser());
 
     /** Helmet Middleware */
     app.use(helmetMiddleware());

@@ -19,6 +19,7 @@ const createMongo = (database) => {
     useFindAndModify: false,
     dbName: database,
     autoReconnect: true,
+    useUnifiedTopology: true,
   };
   const hasUsername = Boolean(APP_MONGO_USERNAME && APP_MONGO_USERNAME.length > 0);
   const hasPassword = Boolean(APP_MONGO_PASSWORD && APP_MONGO_PASSWORD.length > 0);

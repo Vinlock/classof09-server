@@ -14,14 +14,31 @@ services:
     links:
       - mongo
     environment:
+      APP_DEV_MODE: "true"
       APP_MONGO_DB_URL: mongodb://mongo:27017/dev
       APP_MONGO_DATABASE: dev
-      APP_GRAPHQL_ENABLE_GRAPHIQL: "true"
-      APP_GRAPHQL_ENABLE_INTROSPECTION: "true"
+      APP_GRAPHQL_ENABLE_GRAPHIQL: "false"
+      APP_GRAPHQL_ENABLE_INTROSPECTION: "false"
+      APP_DISABLE_GRAPHQL: "true"
       APP_GRAPHIQL_POLLING_INTERVAL: 10000
       APP_DEBUG_MODE: "true"
+      APP_FACEBOOK_CLIENT_ID: ${FACEBOOK_CLIENT_ID}
+      APP_FACEBOOK_SECRET: ${FACEBOOK_SECRET}
+      APP_TYPEFORM_TOKEN: ${TYPEFORM_TOKEN}
+      APP_JWT_SECRET: 12345
+      APP_HOME_PAGE: "http://localhost:8001"
+      APP_COOKIE_DOMAIN: localhost
+      APP_EVENTBRITE_TICKET_TYPE_SINGLE: 133099119
+      APP_EVENTBRITE_TICKET_TYPE_COUPLE: 133099161
+      APP_EVENTBRITE_PRIVATE_TOKEN: ${EVENTBRITE_TOKEN}
+      APP_EVENTBRITE_EVENT_ID: 74631995307
+      APP_EVENTBRITE_ORGANIZATION_ID: 310864031770
   mongo:
     image: mongo:latest
-    container_name: aion-attendance_mongo
+    volumes:
+      - mongo-data:/data/db
     ports:
       - 5000:27017
+
+volumes:
+  mongo-data:

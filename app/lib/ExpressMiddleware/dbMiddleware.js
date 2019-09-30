@@ -1,6 +1,8 @@
-import db from '../../db/db';
+import * as db from '../../db';
 
 const dbMiddleware = () => (req, res, next) => {
   req.db = db;
-  next();
+  return next();
 };
+
+export default dbMiddleware;
