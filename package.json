@@ -44,7 +44,8 @@
   },
   "scripts": {
     "dev": "export $(cat .env | xargs) && node scripts/start_dev.js",
-    "docker:dev": "docker-compose up --build"
+    "docker:dev": "docker-compose up --build",
+    "start": "node scripts/start.js"
   },
   "nodemonConfig": {
     "ignore": [
