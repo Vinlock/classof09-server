@@ -5,6 +5,7 @@ ENV NODE_ENV=production
 WORKDIR /var/app
 
 COPY ./app/ /var/app/app/
+COPY ./scripts/ /var/app/scripts/
 COPY ./package.json /var/app/package.json
 COPY ./yarn.lock /var/app/yarn.lock
 RUN yarn install
@@ -16,6 +17,7 @@ ENV NODE_ENV=production
 WORKDIR /var/app
 
 COPY --from=build /var/app/app/ ./app/
+COPY --from=build /var/app/scripts/ ./scripts/
 COPY --from=build /var/app/node_modules/ ./node_modules/
 COPY --from=build /var/app/package.json ./package.json
 
