@@ -24,6 +24,23 @@ export const generateAccessCode = () => async (req, res) => {
   });
 };
 
+export const purchase = () => async (req, res) => {
+  if (!req.user) {
+    return res.status(403).send(null);
+  }
+
+  const { orderId } = req.body;
+
+  if (orderId) {
+    req.user.eventbrite.orderId = orderId;
+    req.user.eventbrite.purchased = true;
+  }
+
+  return res.status(200).json({
+    success: true,
+  });
+};
+
 export const webhookHandler = () => async (req, res) => {
   const { body } = req;
   const { webhook_id, action } = body.config;

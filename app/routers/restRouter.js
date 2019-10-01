@@ -2,7 +2,7 @@ import { Router } from 'express';
 import middleware from '../lib/ExpressMiddleware';
 import { configure as configurePassport } from '../lib/Passport';
 import { facebookOauth, facebookOauthCallback, getUser, logoutUser } from '../rest/controllers/authController';
-import { generateAccessCode, webhookHandler } from '../rest/controllers/eventbriteController';
+import { generateAccessCode, webhookHandler, purchase } from '../rest/controllers/eventbriteController';
 
 // Configure Passport
 configurePassport();
@@ -40,6 +40,7 @@ authRouter.get('/oauth/facebook/callback', facebookOauthCallback());
 
 const eventbriteRouter = Router();
 restRouter.use('/eventbrite', eventbriteRouter);
+eventbriteRouter.put('/order', purchase());
 eventbriteRouter.post('/webhook', webhookHandler());
 eventbriteRouter.get('/purchase', generateAccessCode());
 
