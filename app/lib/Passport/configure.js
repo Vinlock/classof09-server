@@ -7,6 +7,8 @@ const {
   APP_FACEBOOK_CLIENT_ID,
   APP_FACEBOOK_SECRET,
   APP_SITE_URL,
+  APP_EVENTBRITE_ORGANIZATION_ID,
+  APP_EVENTBRITE_EVENT_ID,
 } = process.env;
 
 const configure = () => {
@@ -37,6 +39,12 @@ const configure = () => {
       } else {
         user.facebook.accessToken = accessToken;
         user.facebook.refreshToken = refreshToken;
+        await user.save();
+      }
+      if (!user.eventbrite.accessCode) {
+        const { code, id } = await req.Eventbrite.createAccessCode(APP_EVENTBRITE_ORGANIZATION_ID, APP_EVENTBRITE_EVENT_ID);
+        user.eventbrite.accessCode = code;
+        user.eventbrite.accessCodeId = id;
         await user.save();
       }
       return done(null, user);
