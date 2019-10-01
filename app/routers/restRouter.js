@@ -41,6 +41,6 @@ authRouter.get('/oauth/facebook/callback', facebookOauthCallback());
 const eventbriteRouter = Router();
 restRouter.use('/eventbrite', eventbriteRouter);
 eventbriteRouter.post('/webhook', webhookHandler());
-eventbriteRouter.get('/purchase/:ticketType', generateAccessCode());
+eventbriteRouter.get('/purchase', generateAccessCode());
 
 export default restRouter;

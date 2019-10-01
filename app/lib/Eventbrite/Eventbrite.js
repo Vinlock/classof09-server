@@ -38,13 +38,12 @@ class Eventbrite {
     return randomString;
   };
 
-  createAccessCode = async (organizationId, eventId, tickets) => {
+  createAccessCode = async (organizationId, eventId) => {
     const discountData = {
       type: 'access',
       code: this._genRandomString(20),
       event_id: eventId,
       quantity_available: 1,
-      ticket_class_ids: tickets,
     };
 
     const response = await this._instance

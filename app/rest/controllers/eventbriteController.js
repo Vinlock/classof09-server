@@ -15,30 +15,11 @@ export const generateAccessCode = () => async (req, res) => {
 
   const code = req.user.eventbrite.accessCode;
   if (!code) {
-    const {ticketType} = req.params;
-
-    let ticketId = null;
-    switch (ticketType) {
-      case TICKET_TYPE_COUPLE:
-        ticketId = APP_EVENTBRITE_TICKET_TYPE_COUPLE;
-        break;
-      case TICKET_TYPE_SINGLE:
-        ticketId = APP_EVENTBRITE_TICKET_TYPE_SINGLE;
-        break;
-      default:
-        return res.status(400).json({
-          error: 'INVALID_TICKET_TYPE',
-        });
-    }
-
     const {code, id} = await req.Eventbrite
-      .createAccessCode(APP_EVENTBRITE_ORGANIZATION_ID, APP_EVENTBRITE_EVENT_ID, [
-        ticketId,
-      ]);
+      .createAccessCode(APP_EVENTBRITE_ORGANIZATION_ID, APP_EVENTBRITE_EVENT_ID);
 
     req.user.eventbrite.accessCode = code;
     req.user.eventbrite.accessCodeId = id;
-    req.user.eventbrite.ticketType = ticketType;
     await req.user.save();
   }
 
