@@ -27,6 +27,7 @@ export const getUser = () => async (req, res) => {
     purchasedTickets: 0,
     purchased: false,
     ticketsLeft: 0,
+    ticketType: null,
   };
 
   let saveUser = false;
@@ -54,9 +55,18 @@ export const getUser = () => async (req, res) => {
     userData.totalEntries = responses.total_items;
   }
 
+  if (user.eventbrite.ticketType) {
+    userData.ticketType = user.eventbrite.ticketType;
+  }
+
   // Check number of purchased tickets.
 
   // Check if user purchased already.
+  if (user.eventbrite.purchased) {
+    userData.purchased = true;
+  } else if (user.eventbrite.accessCodeId) {
+    userData.purchased = await req.Eventbrite.checkAccessCodeStatus(user.eventbrite.accessCodeId);
+  }
 
   if (saveUser) {
     await user.save();

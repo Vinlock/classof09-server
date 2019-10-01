@@ -22,6 +22,13 @@ const TypeformSchema = new Schema({
 });
 
 const EventbriteSchema = new Schema({
+  ticketType: {
+    type: [
+      'couple',
+      'single',
+    ],
+    default: null,
+  },
   accessCode: {
     type: String,
     default: null,

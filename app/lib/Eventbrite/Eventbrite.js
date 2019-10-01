@@ -58,12 +58,12 @@ class Eventbrite {
     }
   };
 
-  checkAccessCodeStatus = async (accessCode) => {
+  checkAccessCodeStatus = async (accessCodeId) => {
     const response = await this._instance
-      .get(`/discounts/${accessCode}`);
+      .get(`/discounts/${accessCodeId}`);
     const { data } = response;
 
-
+    return Boolean(data.quantity_sold);
   };
 
   callApiUrl = async (url) => {
