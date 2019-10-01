@@ -66,6 +66,10 @@ export const getUser = () => async (req, res) => {
     userData.purchased = true;
   } else if (user.eventbrite.accessCodeId) {
     userData.purchased = await req.Eventbrite.checkAccessCodeStatus(user.eventbrite.accessCodeId);
+    if (userData.purchased) {
+      user.eventbrite.purchased = true;
+      saveUser = true;
+    }
   }
 
   if (saveUser) {
