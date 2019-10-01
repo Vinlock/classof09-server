@@ -7,6 +7,8 @@ const {
   APP_COOKIE_DOMAIN,
   APP_DEV_MODE,
   APP_TYPEFORM_SURVEY_ID,
+  APP_EVENTBRITE_ORGANIZATION_ID,
+  APP_EVENTBRITE_EVENT_ID,
 } = process.env;
 
 export const getUser = () => async (req, res) => {
@@ -28,6 +30,7 @@ export const getUser = () => async (req, res) => {
     purchased: false,
     ticketsLeft: 0,
     ticketType: null,
+    code: null,
   };
 
   let saveUser = false;
@@ -70,6 +73,17 @@ export const getUser = () => async (req, res) => {
       user.eventbrite.purchased = true;
       saveUser = true;
     }
+  }
+
+  userData.code = user.eventbrite.accessCode;
+  if (!userData.code) {
+    const {code, id} = await req.Eventbrite
+      .createAccessCode(APP_EVENTBRITE_ORGANIZATION_ID, APP_EVENTBRITE_EVENT_ID);
+
+    userData.code = code;
+    user.eventbrite.accessCode = code;
+    user.eventbrite.accessCodeId = id;
+    saveUser = true;
   }
 
   if (saveUser) {
