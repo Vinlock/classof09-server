@@ -5,6 +5,7 @@ import bugsnagExpress from '@bugsnag/plugin-express';
 const {
   APP_BUGSNAG_KEY,
   APP_BUGSNAG_RELEASE_STAGE,
+  APP_COMMIT_SHA,
 } = process.env;
 
 const bugsnagClient = bugsnag({
@@ -14,6 +15,7 @@ const bugsnagClient = bugsnag({
     'refreshToken',
   ],
   releaseStage: APP_BUGSNAG_RELEASE_STAGE,
+  appVersion: APP_COMMIT_SHA,
 });
 bugsnagClient.use(bugsnagExpress);
 
