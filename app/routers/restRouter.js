@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import middleware from '../lib/ExpressMiddleware';
 import { configure as configurePassport } from '../lib/Passport';
-import { facebookOauth, facebookOauthCallback, getUser, logoutUser } from '../rest/controllers/authController';
-import { generateAccessCode, webhookHandler, purchase } from '../rest/controllers/eventbriteController';
+import * as authController from '../rest/controllers/authController';
+import * as eventbriteController from '../rest/controllers/eventbriteController';
 
 // Configure Passport
 configurePassport();
@@ -32,16 +32,16 @@ restRouter.get('/test', async (req, res) => {
 //--- Auth Router ---///
 const authRouter = Router();
 restRouter.use('/auth', authRouter);
-authRouter.get('/user', getUser());
-authRouter.get('/logout', logoutUser());
-authRouter.get('/oauth/facebook', facebookOauth());
-authRouter.get('/oauth/facebook/callback', facebookOauthCallback());
+authRouter.get('/user', authController.getUser());
+authRouter.get('/logout', authController.logoutUser());
+authRouter.get('/oauth/facebook', authController.facebookOauth());
+authRouter.get('/oauth/facebook/callback', authController.facebookOauthCallback());
 ///--- END Auth Router ---///
 
 const eventbriteRouter = Router();
 restRouter.use('/eventbrite', eventbriteRouter);
-eventbriteRouter.put('/order', purchase());
-eventbriteRouter.post('/webhook', webhookHandler());
-eventbriteRouter.get('/purchase', generateAccessCode());
+eventbriteRouter.put('/order', eventbriteController.purchase());
+eventbriteRouter.post('/webhook', eventbriteController.webhookHandler());
+eventbriteRouter.get('/purchase', eventbriteController.generateAccessCode());
 
 export default restRouter;
