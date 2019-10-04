@@ -19,5 +19,5 @@ const bugsnagClient = bugsnag({
 });
 bugsnagClient.use(bugsnagExpress);
 
-export const requestHandler = bugsnagClient.getPlugin('express');
-export const errorHandler = bugsnagClient.getPlugin('express');
+export default bugsnagClient.getPlugin('express');
+

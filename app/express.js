@@ -3,7 +3,7 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import helmetMiddleware from './lib/ExpressMiddleware/helmetMiddleware';
 import routers from './routers';
-import { requestHandler, errorHandler } from './utils/bugsnag';
+import bugsnagMiddleware from './utils/bugsnag';
 
 export default {
   /**
@@ -18,8 +18,8 @@ export default {
     const app = express();
 
     /** Bugsnag */
-    app.use(requestHandler);
-    app.use(errorHandler);
+    app.use(bugsnagMiddleware.requestHandler);
+    app.use(bugsnagMiddleware.errorHandler);
 
     /** Cookie Middleware */
     app.use(cookieParser());
