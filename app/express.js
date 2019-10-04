@@ -1,7 +1,6 @@
 import http from 'http';
 import express from 'express';
 import cookieParser from 'cookie-parser';
-import bugsnagExpress from '@bugsnag/plugin-express';
 import helmetMiddleware from './lib/ExpressMiddleware/helmetMiddleware';
 import routers from './routers';
 import { requestHandler, errorHandler } from './utils/bugsnag';
@@ -19,7 +18,6 @@ export default {
     const app = express();
 
     /** Bugsnag */
-    app.use(bugsnagExpress);
     app.use(requestHandler);
     app.use(errorHandler);
 

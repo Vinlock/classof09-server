@@ -1,4 +1,6 @@
 import bugsnag from '@bugsnag/js';
+import bugsnagExpress from '@bugsnag/plugin-express';
+
 
 const {
   APP_BUGSNAG_KEY,
@@ -13,6 +15,7 @@ const bugsnagClient = bugsnag({
   ],
   releaseStage: APP_BUGSNAG_RELEASE_STAGE,
 });
+bugsnagClient.use(bugsnagExpress);
 
 export const requestHandler = bugsnagClient.getPlugin('express');
 export const errorHandler = bugsnagClient.getPlugin('express');
