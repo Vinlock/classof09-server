@@ -28,14 +28,19 @@ const configure = () => {
     try {
       let user = await User.findOne({'facebook.id': id});
       if (!user) {
-        user = await User.create({
-          firstName,
-          lastName,
-          email,
-          facebook: {
-            id, accessToken, refreshToken,
-          },
-        });
+        try {
+          user = await User.create({
+            firstName,
+            lastName,
+            email,
+            facebook: {
+              id, accessToken, refreshToken,
+            },
+          });
+        } catch (err) {
+          req.bugsnag.context.facebookUser = profile;
+          req.bugsnag.notify(err);
+        }
       } else {
         user.facebook.accessToken = accessToken;
         user.facebook.refreshToken = refreshToken;
