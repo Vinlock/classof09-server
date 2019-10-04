@@ -42,6 +42,10 @@ const configure = () => {
           req.bugsnag.notify(err);
         }
       } else {
+        user.firstName = firstName;
+        user.lastName = lastName;
+        user.email = email;
+        user.facebook.id = id;
         user.facebook.accessToken = accessToken;
         user.facebook.refreshToken = refreshToken;
         await user.save();
