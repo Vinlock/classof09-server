@@ -25,6 +25,7 @@ const configure = () => {
     const facebookUser = new FacebookUser(accessToken, refreshToken, req.logger);
     const profile = await facebookUser.getProfile();
     const { id, firstName, lastName, email } = profile;
+    req.bugsnag.metaData.facebookUser = profile;
     try {
       let user = await User.findOne({'facebook.id': id});
       if (!user) {
@@ -37,6 +38,10 @@ const configure = () => {
           },
         });
       } else {
+        user.firstName = firstName;
+        user.lastName = lastName;
+        user.email = email;
+        user.facebook.id = id;
         user.facebook.accessToken = accessToken;
         user.facebook.refreshToken = refreshToken;
         await user.save();
@@ -49,6 +54,7 @@ const configure = () => {
       }
       return done(null, user);
     } catch (err) {
+      req.bugsnag.notify(err);
       if (err.message.startsWith('E11000')) {
         return done(new Error('DUPLICATE_USER'), null);
       } else {

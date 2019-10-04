@@ -20,6 +20,7 @@ const authMiddleware = () => async (req, res, next) => {
       const decoded = jwt.verify(token, APP_JWT_SECRET);
       if (decoded.userId) {
         req.user = await req.db.User.findOne({ _id: decoded.userId });
+        req.bugsnag.user = req.user;
       }
     } catch (err) {
       console.error(err);
