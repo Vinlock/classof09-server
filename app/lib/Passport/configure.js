@@ -25,6 +25,10 @@ const configure = () => {
     const facebookUser = new FacebookUser(accessToken, refreshToken, req.logger);
     const profile = await facebookUser.getProfile();
     const { id, firstName, lastName, email } = profile;
+    if (!email) {
+      // E-Mail is not verified
+      return done(new Error('EMAIL_NOT_VERIFIED'), null);
+    }
     req.bugsnag.metaData.facebookUser = profile;
     try {
       let user = await User.findOne({'facebook.id': id});

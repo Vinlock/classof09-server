@@ -4,7 +4,6 @@ import Axiosinterceptors from '../AxiosInterceptors';
 class FacebookUser {
   constructor(accessToken = null, refreshToken = null, logger = null) {
     this._accessToken = accessToken;
-    this._refreshToken = refreshToken;
 
     const instanceConfig = {
       baseURL: 'https://graph.facebook.com/v4.0',
