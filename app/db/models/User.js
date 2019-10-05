@@ -53,9 +53,8 @@ const UserSchema = new Schema({
   },
   email: {
     type: String,
-    required: false,
+    required: true,
     unique: true,
-    sparse: true,
   },
   facebook: {
     type: FacebookAuthSchema,
